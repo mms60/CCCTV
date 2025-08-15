@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WCCTV ROI Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .calculator {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 420px;
+    }
+    h1 {
+        color: #ff6600;
+        font-size: 22px;
+        text-align: center;
+    }
+    label {
+        font-weight: bold;
+        margin-top: 15px;
+        display: block;
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+    button {
+        width: 100%;
+        background: #ff6600;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+    button:hover {
+        background: #e55a00;
+    }
+    .results {
+        background: #f1f9f1;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-size: 16px;
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <h1>WCCTV ROI Calculator</h1>
+    <p style="text-align:center;">See how much you save by replacing guards with WCCTV mobile units.</p>
+
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" placeholder="Enter your name" required>
+
+    <label for="email">Your Email:</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+
+    <label for="locations">Number of Locations:</label>
+    <input type="number" id="locations" placeholder="e.g. 3" required>
+
+    <button onclick="calculateSavings()">Calculate Savings</button>
+
+    <div class="results" id="results"></div>
+</div>
+
+<script>
+function calculateSavings() {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const locations = parseInt(document.getElementById("locations").value);
+
+    if (!name || !email || isNaN(locations) || locations <= 0) {
+        alert("Please fill in all fields correctly.");
+        return;
+    }
+
+    // Cost calculations
+    const guardHourlyRate = 25;
+    const hoursPerMonth = 24 * 30; // 720 hours
+    const guardMonthlyCost = guardHourlyRate * hoursPerMonth; // 18,000 per location
+    const wcctvMonthlyCost = 2000;
+
+    const savingsPerLocation = guardMonthlyCost - wcctvMonthlyCost;
+    const totalSavings = savingsPerLocation * locations;
+
+    // Display results
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.style.display = "block";
+    resultsDiv.innerHTML = `
+        <strong>${name}</strong>, by switching to WCCTV mobile units for ${locations} location(s), 
+        you could save approximately <strong>$${totalSavings.toLocaleString()}</strong> per month.
+        <br><br>
+        <em>Want to see it in action?</em> <br>
+        <button style="margin-top:10px; background:#007BFF;" onclick="alert('Demo request sent!')">Request a Demo</button>
+    `;
+}
+</script>
+
+</body>
+</html>
